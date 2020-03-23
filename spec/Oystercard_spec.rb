@@ -31,6 +31,33 @@ describe Oystercard do
       expect(new_card.balance).to be < (y)
     end
   end
+  describe 'touching in/out/hokeykokey' do
+    it " should be able to touch into system" do
+      expect(card).to respond_to(:touch_in)
+    end
+    it "Touch in updates your status in the system to true" do
+      card.touch_in
+      expect(card.in_system).to eq(true)
+    end
+    it " should be able to touch out of system" do
+      expect(card).to respond_to(:touch_out)
+    end
+    it "Touch out updates your status in the system to false" do
+      card.touch_out
+      expect(card.in_system).to eq(false)
+    end
+    it "should be able to let you know if it's in a journey" do
+      expect(card.in_journey?).to eq(true).or eq(false)
+    end
+    it "should return true if you are in the system" do
+      card.touch_in
+      expect(card.in_journey?).to eq(true)
+    end
+    it "should return false if you are out the system" do
+      card.touch_out
+      expect(card.in_journey?).to eq(false)
+    end
+  end
 end
 
 
