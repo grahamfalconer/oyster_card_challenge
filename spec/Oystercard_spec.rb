@@ -19,8 +19,7 @@ describe Oystercard do
       expect { new_card.top_up(x) }.to change { new_card.balance }.from(y).to(x+y)
     end
     it "doesn't top up past limit" do
-      card_limit = 90
-      expect { card.top_up(card_limit + 1)  }.to raise_error "you cannot top up #{card_limit + 1} as it brings your card over the limit"
+      expect { card.top_up(Oystercard::CARD_LIMIT + 1) }.to raise_error "you cannot top up #{(Oystercard::CARD_LIMIT) + 1} as it brings your card over the limit"
     end
     it "should respond to deduct" do
       expect(card).to respond_to(:deduct)
@@ -36,6 +35,7 @@ describe Oystercard do
       expect(card).to respond_to(:touch_in)
     end
     it "Touch in updates your status in the system to true" do
+      card.top_up(Oystercard::CARD_LIMIT)
       card.touch_in
       expect(card.in_system).to eq(true)
     end
@@ -50,12 +50,16 @@ describe Oystercard do
       expect(card.in_journey?).to eq(true).or eq(false)
     end
     it "should return true if you are in the system" do
+      card.top_up(Oystercard::CARD_LIMIT)
       card.touch_in
       expect(card.in_journey?).to eq(true)
     end
     it "should return false if you are out the system" do
       card.touch_out
       expect(card.in_journey?).to eq(false)
+    end
+    it 'will not touch in if below balance is below minimum' do
+    expect{ card.touch_in }.to raise_error "Insufficient balance to touch in"
     end
   end
 end
