@@ -1,6 +1,6 @@
 class Oystercard
 
-  attr_reader :balance, :min_balance, :entry_station
+  attr_reader :balance, :min_balance, :entry_station 
 
   STARTING_BALANCE = 0
   CARD_LIMIT = 90
@@ -30,7 +30,7 @@ class Oystercard
   end
 
   def in_journey?
-    !@entry_station.nil?
+    !!@entry_station
   end
 
   private
