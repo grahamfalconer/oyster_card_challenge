@@ -29,6 +29,7 @@ class Oystercard
   end
 
   def touch_out
+    @balance -= MINIMUM_BALANCE
     @in_system = false
   end
 

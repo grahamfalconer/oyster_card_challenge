@@ -68,6 +68,11 @@ describe Oystercard do
     it 'will not touch in if below balance is below minimum' do
     expect{ card.touch_in }.to raise_error "Insufficient balance to touch in"
     end
+    it "balance will be reduced by the minimum amount after touch out" do
+      topped_up_card.touch_in
+      topped_up_card.touch_out
+      expect(topped_up_card.balance - 1).to eq(topped_up_card.balance - Oystercard::MINIMUM_BALANCE)
+    end
   end
 end
 
