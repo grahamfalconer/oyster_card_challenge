@@ -5,6 +5,7 @@ describe Oystercard do
   let(:topped_up_card) { Oystercard.new(50) }
   let(:maxed_out_card) { Oystercard.new(Oystercard::CARD_LIMIT) }
   let(:station) { double(:station) }
+  let(:exit_station) { double(:station) }
 
   context 'balance' do
     it "should respond to balance" do
@@ -60,6 +61,14 @@ describe Oystercard do
     it 'remembers the station when you touch in' do
       topped_up_card.touch_in(station)
       expect(topped_up_card.entry_station).to eq(station)
+    end
+    it "it gives you access to previous journeys" do
+      expect(subject).to respond_to(:previous_journeys)
+    end
+    it "Has a list of previous journeys" do
+      maxed_out_card.touch_in(station)
+      maxed_out_card.touch_out(exit_station)
+      expect(maxed_out_card.previous_journeys).to eq([{ entry_station: station, exit_station: exit_station }])
     end
   end
 end

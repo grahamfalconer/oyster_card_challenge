@@ -8,6 +8,7 @@ class Oystercard
 
   def initialize(balance = STARTING_BALANCE)
     @balance = balance
+    @journeys_taken = []
   end
 
   def top_up(num)
@@ -26,11 +27,17 @@ class Oystercard
 
   def touch_out(station)
     deduct
+    my_journey = {entry_station: @entry_station, exit_station: station}
+    @journeys_taken << my_journey
     @entry_station = nil
   end
 
   def in_journey?
     !!@entry_station
+  end
+
+  def previous_journeys
+    @journeys_taken
   end
 
   private
@@ -65,3 +72,5 @@ def balance
   @balance
 end
 =end
+
+# options = { font_size: 10, font_family: "Arial" } 
