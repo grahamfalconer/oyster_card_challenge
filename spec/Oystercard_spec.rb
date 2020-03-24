@@ -34,7 +34,7 @@ describe Oystercard do
       expect(card).to respond_to(:touch_in)
     end
     it " should be able to touch out of system" do
-      expect(card).to respond_to(:touch_out)
+      expect(card).to respond_to(:touch_out).with(1).argument
     end
     it "should be able to let you know if it's in a journey" do
       expect(card.in_journey?).to eq(true).or eq(false)
@@ -45,7 +45,7 @@ describe Oystercard do
       expect(card.in_journey?).to eq(true)
     end
     it "should return false if you are out the system" do
-      card.touch_out
+      card.touch_out(station)
       expect(card.in_journey?).to eq(false)
     end
     it 'will not touch in if below balance is below minimum' do
@@ -53,7 +53,7 @@ describe Oystercard do
     end
     it "balance will be reduced by the minimum amount after touch out" do
       maxed_out_card.touch_in(station)
-      maxed_out_card.touch_out
+      maxed_out_card.touch_out(station)
       expect(maxed_out_card.balance).to eq(Oystercard::CARD_LIMIT - Oystercard::MINIMUM_BALANCE)
     end
 

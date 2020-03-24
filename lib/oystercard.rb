@@ -1,6 +1,6 @@
 class Oystercard
 
-  attr_reader :balance, :min_balance, :entry_station 
+  attr_reader :balance, :min_balance, :entry_station
 
   STARTING_BALANCE = 0
   CARD_LIMIT = 90
@@ -24,7 +24,7 @@ class Oystercard
     end
   end
 
-  def touch_out
+  def touch_out(station)
     deduct
     @entry_station = nil
   end
