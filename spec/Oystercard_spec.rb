@@ -2,35 +2,42 @@ require './lib/oystercard'
 
 describe Oystercard do
   let(:card) { Oystercard.new }
-  let(:new_card) { Oystercard.new(50) }
-  describe 'balance' do
+  let(:topped_up_card) { Oystercard.new(50) }
+
+  context 'balance' do
     it "should respond to balance" do
-      expect(card).to respond_to(:balance)
+      expect(subject).to respond_to(:balance)
     end
+
     it "balance should respond to class with an integer" do
-      expect(card.balance.class).to eq(Integer)
+      expect(subject.balance).to eq 0
     end
+
     it "should respond to top_up" do
-      expect(card).to respond_to(:top_up)
+      expect(subject).to respond_to(:top_up)
     end
+
     it "balance should be increased by topping up" do
-      y = new_card.balance
-      x = 10
-      expect { new_card.top_up(x) }.to change { new_card.balance }.from(y).to(x+y)
+      top_up_amount = 10
+      expect { topped_up_card.top_up(top_up_amount) }.to change { topped_up_card.balance }.by top_up_amount
     end
+
     it "doesn't top up past limit" do
-      expect { card.top_up(Oystercard::CARD_LIMIT + 1) }.to raise_error "you cannot top up #{(Oystercard::CARD_LIMIT) + 1} as it brings your card over the limit"
+      expect { subject.top_up(Oystercard::CARD_LIMIT + 1) }.to raise_error "you cannot top up #{(Oystercard::CARD_LIMIT) + 1} as it brings your card over the limit"
     end
+
     it "should respond to deduct" do
-      expect(card).to respond_to(:deduct)
+      expect(subject).to respond_to(:deduct)
     end
+
     it "balance should be decreased by deduct" do
-      y = new_card.balance
-      new_card.deduct
-      expect(new_card.balance).to be < (y)
+      y = topped_up_card.balance
+      topped_up_card.deduct
+      expect(topped_up_card.balance).to be < (y)
     end
   end
-  describe 'touching in/out/hokeykokey' do
+
+  context 'touching in/out/hokeykokey' do
     it " should be able to touch into system" do
       expect(card).to respond_to(:touch_in)
     end
