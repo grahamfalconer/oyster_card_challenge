@@ -7,6 +7,7 @@ describe Oystercard do
   let(:station) { double(:station) }
   let(:exit_station) { double(:station) }
 
+
   context 'balance' do
     it "should respond to balance" do
       expect(subject).to respond_to(:balance)
@@ -57,7 +58,6 @@ describe Oystercard do
       maxed_out_card.touch_out(station)
       expect(maxed_out_card.balance).to eq(Oystercard::CARD_LIMIT - Oystercard::MINIMUM_BALANCE)
     end
-
     it 'remembers the station when you touch in' do
       topped_up_card.touch_in(station)
       expect(topped_up_card.entry_station).to eq(station)
@@ -65,13 +65,25 @@ describe Oystercard do
     it "it gives you access to previous journeys" do
       expect(subject).to respond_to(:previous_journeys)
     end
+    it "It stores one journey from touching in and out" do
+      topped_up_card.touch_in("Waterloo")
+      topped_up_card.touch_out("Westminster")
+      expect(topped_up_card::journeys_taken.length).to eq 1
+    end
+
     it "Has a list of previous journeys" do
       maxed_out_card.touch_in(station)
       maxed_out_card.touch_out(exit_station)
       expect(maxed_out_card.previous_journeys).to eq([{ entry_station: station, exit_station: exit_station }])
     end
+    it "starts with an empty journey history" do
+      expect(subject::journeys_taken).to eq []
+    end
   end
 end
+
+# WHERE AM I LEAVING OFF
+# Write a test that checks that the card has an empty list of journeys by default
 
 
 

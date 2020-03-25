@@ -1,6 +1,8 @@
+require 'tube_station'
+
 class Oystercard
 
-  attr_reader :balance, :min_balance, :entry_station
+  attr_reader :balance, :min_balance, :entry_station, :journeys_taken
 
   STARTING_BALANCE = 0
   CARD_LIMIT = 90
