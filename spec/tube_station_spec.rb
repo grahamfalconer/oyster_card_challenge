@@ -2,13 +2,18 @@ require './lib/tube_station'
 
 describe Station do
 
-  subject {Station.new(name: "Old Street", zone: 1)}
 
   it 'knows its name' do
-    expect(subject.name).to eq("Old Street")
+    station_hash = {name: "St Pauls", zone: 1}
+    station = Station.new (station_hash)
+    expect(station.station).to eq "St Pauls"
   end
 
-  it 'knows its zone' do
-    expect(subject.zone).to eq(1)
+  it 'knows its name' do
+    station_hash = {name: "St Pauls", zone: 1}
+    station = Station.new (station_hash)
+    expect(station.zone).to eq 1
   end
+
+
 end
